@@ -1,0 +1,27 @@
+{
+  "name": "nuevo_futuro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielaVelasquez/nuevo_futuro.git"
+  },
+  "author": "Mark Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielaVelasquez/nuevo_futuro/issues"
+  },
+  "homepage": "https://github.com/DanielaVelasquez/nuevo_futuro#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mariadb": "^2.1.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.2.13",
+    "sequelize-cli": "^5.4.0"
+  }
+}
