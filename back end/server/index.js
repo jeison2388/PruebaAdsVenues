@@ -17,10 +17,10 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use('/form', usuarioRoutes)
+app.use('/usuario', usuarioRoutes)
 
 //Sync with models
-models.sequelize.sync({force: true});
+models.sequelize.sync({force: false});
 
 //Start the server
 var port = process.env.PORT || 1337;

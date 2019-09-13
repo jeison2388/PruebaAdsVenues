@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var usuario = sequelize.define('Usuario', {
+  let usuario = sequelize.define('usuario', {
     idUsuario: {
       allowNull: false,
       autoIncrement: true,
@@ -27,5 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     timestamps: false
   });
+  usuario.associate = function(models) {
+    models.usuario.hasMany(models.seguidores, {foreignKey: 'seguidor', as: 'seguidores'})
+    models.usuario.hasMany(models.seguidores, {foreignKey: 'seguido', as: 'quien_me_sigue'})    
+};
   return usuario;
 };

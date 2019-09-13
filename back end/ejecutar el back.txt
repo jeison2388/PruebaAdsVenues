@@ -1,0 +1,4 @@
+para iniciar el servicio hacer los siguientes pasos:
+
+1. crear base de datos en maria db con el siguiente nombre "red_social_dev"
+2. dar npm install en el paquete del servicio para que descargue la informacion necesaria
