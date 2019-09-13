@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
   seguidores.associate = function(models) {
-      models.seguidores.belongsTo(models.usuario, {foreignKey: 'seguidor'});
-      models.seguidores.belongsTo(models.usuario, {foreignKey: 'seguido'});
+      models.seguidores.belongsTo(models.usuario, {foreignKey: 'seguidor', as : 'quien_sigue'});
+      models.seguidores.belongsTo(models.usuario, {foreignKey: 'seguido', as : 'a_quien_sigue'});
   };
   return seguidores;
 };

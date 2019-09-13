@@ -15,17 +15,17 @@ router.get('/listaUsuarios',(req, res)=>{
 
 router.post('/eliminarAmistad',(req, res)=>{
     const usuarioId = req.body.usuarioId
-    const usuarioQueMeSigueId = req.body.usuarioQueMeSigueId
+    const usuarioQueMeSigueOSigoId = req.body.usuarioQueMeSigueOSigoId
     const condicion = {
         where:{
             seguidor: usuarioId,
-            seguido: usuarioQueMeSigueId
+            seguido: usuarioQueMeSigueOSigoId
         }
     }
 
     Promise.all([
         models.usuario.findByPk(usuarioId),
-        models.usuario.findByPk(usuarioQueMeSigueId)
+        models.usuario.findByPk(usuarioQueMeSigueOSigoId)
     ]).then(([seguidor, seguido]) =>{
         if(seguidor && seguido){
            return  models.seguidores.findOne(condicion)
@@ -33,7 +33,7 @@ router.post('/eliminarAmistad',(req, res)=>{
         if(!seguidor)
             return Promise.reject({error: 'El usuario a quien siguen no existe '})
         if(!seguido)
-            return Promise.reject({error: 'El usuario a que me sigue no existe'})
+            return Promise.reject({error: 'El usuario que me sigue no existe'})
     })
     .then(amistad =>{
         if(amistad){
@@ -68,13 +68,36 @@ router.post('/seguirUsuario',(req, res)=>{
         res.send(result)
     })
     .catch(errror =>{
-        console.log(errror)
         res.status(400).send({error: 'No fue posible crear el seguidor'})
     })
 })
 
-router.post('/eliminarUsuarioQueMeSigue',(req, res)=>{
-
+router.get('/aQuienSigo',(req, res)=>{
+    const usuarioId = req.body.usuarioId
+    condicion = {
+        where :{
+            seguidor : usuarioId
+        },
+        include : [
+            {
+                model: models.usuario,
+                as: 'a_quien_sigue'
+            }
+        ]
+    }
+    Promise.all([models.usuario.findByPk(usuarioId)])
+    .then(([usuario]) =>{
+        if(usuario)
+            return models.seguidores.findAll(condicion)
+        return Promise.reject({error: 'no existe el usuario en el sistema'})
+    }).then(result =>{
+        res.send(result)
+    }).catch(error =>{
+        console.log(error)
+        res.status(400).send(error)
+    })
+   
 })
+
 
 module.exports = router;
