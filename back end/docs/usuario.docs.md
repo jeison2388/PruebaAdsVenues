@@ -22,5 +22,27 @@ En case de no obtener resultados, el json que retorna es: []
 |`200`|Exito|
 |`500`|Error interno en el servidor|
 
+### GET /usuario/seguirUsuario
+Esta peticion permite a un usuario seguir a otro 
+Usted debe proveer en el body de la peticion la siguiente informacion
+```json
+{
+    usuarioId : 20
+    usuarioAseguirId : 27
+}```
+Si la peticion es correcta el sistema le devolvera la siguiente informacion
+```json
+{
+    "id": 1,
+    "seguidor": "20",
+    "seguido": "27"
+}```
+#### Error
+|Status Codigo|Descripcion|
+|---|---|
+|`200`|Exito|
+|`400`|No fue posible crear el seguidor ó El seguidor no existe ó El usuario a seguir no existe|
+|`500`|Error interno en el servidor|
+
 
 

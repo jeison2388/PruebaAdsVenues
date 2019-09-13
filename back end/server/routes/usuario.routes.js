@@ -36,30 +36,31 @@ router.get('/listaUsuarios',(req, res)=>{
     }).catch(errror =>{
         res.status(400).send(errror)
     })
-})
+})*/
 
-router.post('/crearSeguidor',(req, res)=>{
-    const seguidorId = req.body.seguidorId
-    const seguidoId = req.body.seguidoId
+router.post('/seguirUsuario',(req, res)=>{
+    const usuarioId = req.body.usuarioId
+    const usuarioAseguirId = req.body.usuarioAseguirId
 
     Promise.all([
-        models.usuario.findByPk(seguidorId),
-        models.usuario.findByPk(seguidoId)
+        models.usuario.findByPk(usuarioId),
+        models.usuario.findByPk(usuarioAseguirId)
     ]).then(([seguidor, seguido]) =>{
         if(seguidor && seguido)
             return models.seguidores.create({
-                seguidor: seguidorId,
-                seguido: seguidoId
+                seguidor: usuarioId,
+                seguido: usuarioAseguirId
             })
         if(!seguidor)
             return Promise.reject({error: 'El seguidor no existe '})
-        return Promise.reject({error: 'el seguido no existe'})
+        return Promise.reject({error: 'El usuario a seguir no existe'})
     }).then(result =>{
         res.send(result)
     })
     .catch(errror =>{
-        res.status(400).send(errror)
+        console.log(errror)
+        res.status(400).send({error: 'No fue posible crear el seguidor'})
     })
-})*/
+})
 
 module.exports = router;
