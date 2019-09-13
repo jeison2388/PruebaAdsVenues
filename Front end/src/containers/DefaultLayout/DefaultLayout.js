@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
+import ElementLoading from '../../componentes/utilUI/ElementLoading'
 
 import {
   AppAside,
@@ -26,7 +27,7 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  loading = () => <div className="animated fadeIn pt-1 text-center"><ElementLoading tittle='Cargando'></ElementLoading></div>
 
   signOut(e) {
     e.preventDefault()
@@ -68,7 +69,7 @@ class DefaultLayout extends Component {
                         )} />
                     ) : (null);
                   })}
-                  <Redirect from="/" to="/dashboard" />
+                  <Redirect from="/" to="/usuarios/listaUsuarios" />
                 </Switch>
               </Suspense>
             </Container>
