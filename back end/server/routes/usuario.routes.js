@@ -13,30 +13,40 @@ router.get('/listaUsuarios',(req, res)=>{
     })
 })
 
-/*router.post('/eliminarSeguidor',(requ, res)=>{
-    const seguidorId = req.body.seguidorId
-    const seguidoId = req.body.seguidoId
+router.post('/eliminarAmistad',(req, res)=>{
+    const usuarioId = req.body.usuarioId
+    const usuarioQueMeSigueId = req.body.usuarioQueMeSigueId
     const condicion = {
         where:{
-            seguidor: seguidorId,
-            seguido: seguidoId
+            seguidor: usuarioId,
+            seguido: usuarioQueMeSigueId
         }
     }
 
-    models.seguidores.findOne(condicion).then((seguidores)=>{
-        if(seguidores){
-           return  models.usuario.destroy({
-                seguidor: seguidorId,
-            seguido: seguidoId
-            })
+    Promise.all([
+        models.usuario.findByPk(usuarioId),
+        models.usuario.findByPk(usuarioQueMeSigueId)
+    ]).then(([seguidor, seguido]) =>{
+        if(seguidor && seguido){
+           return  models.seguidores.findOne(condicion)
         }
-        return Promise.reject({error: 'no hay seguidores para ese usuario'})
-    }).then(result =>{
-        res.send()
-    }).catch(errror =>{
-        res.status(400).send(errror)
+        if(!seguidor)
+            return Promise.reject({error: 'El usuario a quien siguen no existe '})
+        if(!seguido)
+            return Promise.reject({error: 'El usuario a que me sigue no existe'})
     })
-})*/
+    .then(amistad =>{
+        if(amistad){
+            return  models.seguidores.destroy(condicion)
+        } 
+        return Promise.reject({error: 'no hay seguidores para ese usuario'})
+    }).then (result =>{
+        console.log('si elimine loco : '+ result)
+    })
+    .catch (error =>{
+        console.log( error)
+    })
+})
 
 router.post('/seguirUsuario',(req, res)=>{
     const usuarioId = req.body.usuarioId
@@ -61,6 +71,10 @@ router.post('/seguirUsuario',(req, res)=>{
         console.log(errror)
         res.status(400).send({error: 'No fue posible crear el seguidor'})
     })
+})
+
+router.post('/eliminarUsuarioQueMeSigue',(req, res)=>{
+
 })
 
 module.exports = router;
