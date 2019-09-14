@@ -23,7 +23,7 @@ En case de no obtener resultados, el json que retorna es: []
 |`200`|Exito|
 |`500`|Error interno en el servidor|
 
-### GET /usuario/aQuienSigo
+### POST /usuario/aQuienSigo
 Esta peticion permite saber a quien sigo yo como usuario
 Usted debe proveer en el body de la peticion la siguiente informacion
 ```json
@@ -62,7 +62,7 @@ si el usuario no sigue a nadie el sistema devolvera la siguiente informacion []
 |`400`|no existe el usuario en el sistema|
 |`500`|Error interno en el servidor|
 
-### GET /usuario/quienMeSigue
+### POST /usuario/quienMeSigue
 Esta peticion permite saber que usuarios me siguen
 Usted debe proveer en el body de la peticion la siguiente informacion
 ```json

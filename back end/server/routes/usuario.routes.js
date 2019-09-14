@@ -72,7 +72,7 @@ router.post('/seguirUsuario',(req, res)=>{
     })
 })
 
-router.get('/aQuienSigo',(req, res)=>{
+router.post('/aQuienSigo',(req, res)=>{
     const usuarioId = req.body.usuarioId
     condicion = {
         where :{
@@ -98,7 +98,7 @@ router.get('/aQuienSigo',(req, res)=>{
     })
 })
 
-router.get('/quienMeSigue',(req, res)=>{
+router.post('/quienMeSigue',(req, res)=>{
     const usuarioId = req.body.usuarioId
     condicion = {
         where :{
