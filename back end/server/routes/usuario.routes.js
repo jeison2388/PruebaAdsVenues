@@ -96,7 +96,32 @@ router.get('/aQuienSigo',(req, res)=>{
         console.log(error)
         res.status(400).send(error)
     })
-   
+})
+
+router.get('/quienMeSigue',(req, res)=>{
+    const usuarioId = req.body.usuarioId
+    condicion = {
+        where :{
+            seguido : usuarioId
+        },
+        include : [
+            {
+                model: models.usuario,
+                as: 'quien_sigue'
+            }
+        ]
+    }
+    Promise.all([models.usuario.findByPk(usuarioId)])
+    .then(([usuario]) =>{
+        if(usuario)
+            return models.seguidores.findAll(condicion)
+        return Promise.reject({error: 'no existe el usuario en el sistema'})
+    }).then(result =>{
+        res.send(result)
+    }).catch(error =>{
+        console.log(error)
+        res.status(400).send(error)
+    })
 })
 
 

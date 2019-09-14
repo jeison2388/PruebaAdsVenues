@@ -62,6 +62,36 @@ si el usuario no sigue a nadie el sistema devolvera la siguiente informacion []
 |`400`|no existe el usuario en el sistema|
 |`500`|Error interno en el servidor|
 
+### GET /usuario/quienMeSigue
+Esta peticion permite saber que usuarios me siguen
+Usted debe proveer en el body de la peticion la siguiente informacion
+```json
+{
+    usuarioId : 20
+}
+```
+Si la peticion es correcta el sistema le devolvera la siguiente informacion
+```json
+[
+    {
+        "id": 4,
+        "seguidor": 20,
+        "seguido": 27,
+        "quien_sigue": {
+            "idUsuario": 20,
+            "nombreUsuario": "DAYANI"
+        }
+    }
+]
+```
+si nadie sigue al usuario el sistema devolvera la siguiente informacion []
+#### Error
+|Status Codigo|Descripcion|
+|---|---|
+|`200`|Exito|
+|`400`|no existe el usuario en el sistema|
+|`500`|Error interno en el servidor|
+
 ### POST /usuario/eliminarAmistad
 Esta peticion permite a un usuario eliminar su amistad con otro ya sea seguidor o seguido
 Usted debe proveer en el body de la peticion la siguiente informacion
