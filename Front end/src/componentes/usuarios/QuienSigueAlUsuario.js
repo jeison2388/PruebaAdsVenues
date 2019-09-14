@@ -57,6 +57,7 @@ class QuienSigueAlUsuario extends Component {
   }
 
   obtenerUsuariosQueMeSiguen = () =>{
+    this.mostrarCargando(true)
       getQuienMeSigue(this.props.idUsuario)
       .then(usuarios =>{
         const cantResult = usuarios.data.length

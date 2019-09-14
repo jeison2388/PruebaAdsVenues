@@ -60,6 +60,7 @@ class AQuienSigueElUsuario extends Component {
 
 
   obtenerUsuariosQueSigo = () =>{
+    this.mostrarCargando(true)
     getAquienSigo(this.props.idUsuario)
     .then(usuarios =>{
       const cantResult = usuarios.data.length
@@ -84,11 +85,12 @@ class AQuienSigueElUsuario extends Component {
   }
 
   eliminarAmistad = (idSeguidor) =>{
+    this.mostrarCargando(true)
     deleteAmistad(this.props.idUsuario , idSeguidor)
     .then(result =>{
           this.obtenerUsuariosQueSigo()
+          this.setState({mostrarCargando: false})
     },error => {
-
         this.setState({msjShowModal: ' Error al eliminar amistad, revise su conexión a internet, si el problema persiste comuniquese con el personal encargado',
         tittleShowModal:'Error al eliminar amistad', mostrarCargando: false},this.showModal(true))
     })
@@ -142,7 +144,7 @@ class AQuienSigueElUsuario extends Component {
           placeholder = {placeholderFind}></ElementFinder>
           </Row>
           {this.state.mostrarCargando?
-            <ElementLoading tittle="Buscando Datos de los usuarios"></ElementLoading>:
+            <ElementLoading tittle="realizando accion espera por favor"></ElementLoading>:
             null
           }
 

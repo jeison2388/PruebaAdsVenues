@@ -58,6 +58,7 @@ class NuevosAmigos extends Component {
     }
 
     obtenerUsuarios = () =>{
+      this.mostrarCargando(true)
       getAmistades()
       .then(usuarios =>{
         let usuariosLista = this.eliminarMiUsuarioDeLaLista(usuarios.data)
@@ -143,7 +144,7 @@ class NuevosAmigos extends Component {
     }
 
     seguirUsuario = (idASeguir) =>{
-      this.mostrarCargando()
+      this.mostrarCargando(true)
       seguirUsuario(this.props.idUsuario, idASeguir)
       .then(result =>{
           this.obtenerUsuarios()
@@ -154,7 +155,7 @@ class NuevosAmigos extends Component {
     }
 
     dejarDeSeguir = (idDejarSeguir) =>{
-      this.mostrarCargando()
+      this.mostrarCargando(true)
         deleteAmistad(this.props.idUsuario, idDejarSeguir)
         .then(result =>{
           this.obtenerUsuarios()
@@ -173,13 +174,14 @@ class NuevosAmigos extends Component {
         <Col  xs="12" md="9" lg="12" >
           <Card  body outline >
             <CardBody >
+            <h1 className="title text-center"> <strong>GESTIONAR AMIGOS </strong> </h1><br></br>
             <MuiThemeProvider theme={theme}>
             <Row>
             <ElementFinder filterList = {(event) => this.filtrarLista(event)}
             placeholder = {placeholderFind}></ElementFinder>
             </Row>
             {this.state.mostrarCargando?
-              <ElementLoading tittle="Buscando Datos de los usuarios"></ElementLoading>:
+              <ElementLoading tittle="realizando accion espera por favor"></ElementLoading>:
               null
             }
 
