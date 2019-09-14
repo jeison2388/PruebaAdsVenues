@@ -11,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Row, Col, Card, CardBody, Button,Alert,Badge } from 'reactstrap';
 import {filtrarUsuarios} from './utils/utilUser'
+import {connect} from 'react-redux';
+import {guardarIdUsuario} from '../../redux/actions/usuario/accionesDeUsuario'
 
 /**********************
  * funcion que permite personalizar el color de las cosas por medio
@@ -89,11 +91,9 @@ class ListaUsuarios extends Component {
   }
 
   mostrarAccionesParaUsuario = (idUsuario) =>{
+    this.props.guardarIdUsuario(idUsuario)
     this.props.history.push('/usuarios/accionesParaElUsuario')
   }
-
-
-
 
   render() {
     const { rows, rowsPerPage, page } = this.state;
@@ -151,13 +151,21 @@ class ListaUsuarios extends Component {
      tittle ={this.state.tittleShowModal}
      show = {this.state.showModal}
      closeModalWindows={()=>this.showModal()}></ElementModalWindow>
-
-
-
-
       </div>
     );
   }
 }
 
-export default ListaUsuarios;
+const mapStateToProps = (state) =>
+  {
+    return {
+      datosUsuario: state.datosUsuario
+    };
+}
+
+const mapDispatchToProps =
+  {
+    guardarIdUsuario
+  };
+
+export default connect(mapStateToProps,mapDispatchToProps)( ListaUsuarios);
