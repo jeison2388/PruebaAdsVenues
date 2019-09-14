@@ -10,9 +10,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Row, Col, Card, CardBody, Button,Alert,Badge } from 'reactstrap';
-import {filtrarUsuarios} from './utils/utilUser'
+import {filtrarAQuienSigo} from './utils/utilUser'
 import {connect} from 'react-redux';
-import {getAquienSigo} from './utils/servicioConexion'
+import {getAquienSigo, deleteAmistad} from './utils/servicioConexion'
 
 const theme = createMuiTheme({
 
@@ -29,18 +29,28 @@ class AQuienSigueElUsuario extends Component {
   constructor(props)
   {
     super(props);
-    this.state = {
-      showModal: false,
-      msjShowModal:'',
-      tittleShowModal: '',
-      existenUsuarios: true,
-      mostrarTabla: false,
-      rows: [],
-      temporaryRows: [],
-      page: 0,
-      rowsPerPage: 10,
-      mostrarCargando: true
-    }
+
+    const objeckKey = Object.keys(this.props.usuarioReducer)
+    if(objeckKey.length === 0)
+      {
+        this.redirectTo('/usuarios/listaUsuarios')
+        this.state ={  rows: [],
+          page: 0,
+          rowsPerPage: 10,}
+      }else{
+        this.state = {
+          showModal: false,
+          msjShowModal:'',
+          tittleShowModal: '',
+          existenUsuarios: true,
+          mostrarTabla: false,
+          rows: [],
+          temporaryRows: [],
+          page: 0,
+          rowsPerPage: 10,
+          mostrarCargando: true
+        }
+      }
   }
 
   componentDidMount()
@@ -73,18 +83,53 @@ class AQuienSigueElUsuario extends Component {
     this.setState({mostrarCargando: state})
   }
 
+  eliminarAmistad = (idSeguidor) =>{
+    deleteAmistad(this.props.idUsuario , idSeguidor)
+    .then(result =>{
+          this.obtenerUsuariosQueSigo()
+    },error => {
+
+        this.setState({msjShowModal: ' Error al eliminar amistad, revise su conexión a internet, si el problema persiste comuniquese con el personal encargado',
+        tittleShowModal:'Error al eliminar amistad', mostrarCargando: false},this.showModal(true))
+    })
+  }
+
+  filtrarLista = (event) =>
+  {
+    if(event.target.value.length === 0)
+    {
+      this.setState({rows: this.state.temporaryRows})
+    }else
+    {
+    let updateList = this.state.temporaryRows;
+    updateList = updateList.filter((item) =>
+    {
+      return filtrarAQuienSigo(item, event.target.value)
+    })
+    this.setState({rows: updateList})
+    }
+  }
+
+
+  redirectTo = (path) =>
+  {
+    this.props.redirectTo(path)
+  }
 
   render() {
-    const { rows, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+      const { rows, rowsPerPage, page } = this.state;
+      const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
     return (
       <div>
       <Row className="justify-content-center">
       <Col  xs="12" md="9" lg="12" >
         <Card  body outline >
           <CardBody >
+          <h1 className="title text-center"> <strong>A QUIEN SIGUE {this.props.nombreUsuario} </strong> </h1><br></br>
           <MuiThemeProvider theme={theme}>
           <Row>
+
           <ElementFinder filterList = {(event) => this.filtrarLista(event)}
           placeholder = {placeholderFind}></ElementFinder>
           </Row>
@@ -106,7 +151,7 @@ class AQuienSigueElUsuario extends Component {
                       <TableRow key={row.id}>
                         <TableCell align="left" component="th" scope="row">{row.a_quien_sigue.nombreUsuario}</TableCell>
                         <TableCell align="left">
-                                    <Button outline color="success" size="sm" onClick={() => this.mostrarAccionesParaUsuario(row.idUsuario)}>Ir a Información del usuario</Button>
+                                    <Button outline color="danger" size="sm" onClick={() => this.eliminarAmistad(row.a_quien_sigue.idUsuario)}>Eliminar Amistad</Button>
 
                         </TableCell>
                       </TableRow>
@@ -138,7 +183,9 @@ class AQuienSigueElUsuario extends Component {
 const mapStateToProps = (state) =>
   {
     return {
-      idUsuario: state.usuarioReducer.idUsuario
+      idUsuario: state.usuarioReducer.idUsuario,
+      nombreUsuario: state.usuarioReducer.nombreUsuario,
+      usuarioReducer : state.usuarioReducer
     };
 }
 

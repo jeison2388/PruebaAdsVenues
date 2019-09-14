@@ -32,6 +32,10 @@ class AccionesParaElUsuario extends Component {
     }
   }
 
+  redirectTo = (path) =>{
+      this.props.history.push(path)
+  }
+
   render() {
     return (
       <div>
@@ -58,13 +62,13 @@ class AccionesParaElUsuario extends Component {
         </Row>
 
         {this.state.mostrarTabUno ?
-          <AQuienSigueElUsuario></AQuienSigueElUsuario>: null
+          <AQuienSigueElUsuario redirectTo = {(path)=> this.redirectTo(path)}></AQuienSigueElUsuario>: null
         }
         {this.state.mostrarTabDos ?
-          <QuienSigueAlUsuario></QuienSigueAlUsuario>:null
+          <QuienSigueAlUsuario redirectTo = {(path)=> this.redirectTo(path)}></QuienSigueAlUsuario>:null
         }
         {this.state.mostrarTabTres ?
-         <NuevosAmigos></NuevosAmigos>: null
+         <NuevosAmigos redirectTo = {(path)=> this.redirectTo(path)}></NuevosAmigos>: null
         }
 
 

@@ -73,6 +73,7 @@ class QuienSigueAlUsuario extends Component {
   }
 
 
+
   render() {
     const { rows, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -84,6 +85,7 @@ class QuienSigueAlUsuario extends Component {
           <CardBody >
           <MuiThemeProvider theme={theme}>
           <Row>
+
           <ElementFinder filterList = {(event) => this.filtrarLista(event)}
           placeholder = {placeholderFind}></ElementFinder>
           </Row>
@@ -105,8 +107,7 @@ class QuienSigueAlUsuario extends Component {
                       <TableRow key={row.id}>
                         <TableCell align="left" component="th" scope="row">{row.quien_sigue.nombreUsuario}</TableCell>
                         <TableCell align="left">
-                                    <Button outline color="success" size="sm" onClick={() => this.mostrarAccionesParaUsuario(row.idUsuario)}>Ir a Información del usuario</Button>
-
+                                    <Button outline color="danger" size="sm" onClick={() => this.eliminarAmistad(row.seguidor)}>Eliminar Amistad</Button>
                         </TableCell>
                       </TableRow>
                     ))}

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {GET_USUARIOS, GET_A_QUIEN_SIGO, GET_QUIEN_ME_SIGUE} from '../../../assets/constantesApp'
+import {GET_USUARIOS, GET_A_QUIEN_SIGO, GET_QUIEN_ME_SIGUE,
+        DELETE_AMISTAD} from '../../../assets/constantesApp'
 
 
 const getUsuarios = () =>{
@@ -14,4 +15,12 @@ const getQuienMeSigue = (idUsuario) =>{
   return axios.post(GET_QUIEN_ME_SIGUE,{usuarioId: idUsuario})
 }
 
-export {getUsuarios, getAquienSigo, getQuienMeSigue}
+const deleteAmistad = (usuarioId, idSeguidor) =>{
+  return axios.post(DELETE_AMISTAD,
+                    {
+                      usuarioId: usuarioId,
+                      usuarioQueMeSigueOSigoId : idSeguidor
+                    })
+}
+
+export {getUsuarios, getAquienSigo, getQuienMeSigue, deleteAmistad}

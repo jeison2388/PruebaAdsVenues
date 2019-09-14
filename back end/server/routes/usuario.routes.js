@@ -38,13 +38,15 @@ router.post('/eliminarAmistad',(req, res)=>{
     .then(amistad =>{
         if(amistad){
             return  models.seguidores.destroy(condicion)
-        } 
-        return Promise.reject({error: 'no hay seguidores para ese usuario'})
+        } else{
+            return Promise.reject({error: 'no hay seguidores para ese usuario'})
+        }
+       
     }).then (result =>{
-        console.log('si elimine loco : '+ result)
+        res.sendStatus(result)
     })
     .catch (error =>{
-        console.log( error)
+        res.status(200).send(error)
     })
 })
 

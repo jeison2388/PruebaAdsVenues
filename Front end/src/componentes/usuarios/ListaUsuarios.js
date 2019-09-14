@@ -90,10 +90,13 @@ class ListaUsuarios extends Component {
     }
   }
 
-  mostrarAccionesParaUsuario = (idUsuario) =>{
-    this.props.guardarIdUsuario(idUsuario)
+  mostrarAccionesParaUsuario = (idUsuario, nombreUsuario) =>{
+    this.props.guardarIdUsuario(
+      {id: idUsuario,
+      nombre: nombreUsuario})
     this.props.history.push('/usuarios/accionesParaElUsuario')
   }
+
 
   render() {
     const { rows, rowsPerPage, page } = this.state;
@@ -127,7 +130,7 @@ class ListaUsuarios extends Component {
                       <TableRow key={row.idUsuario}>
                         <TableCell align="left" component="th" scope="row">{row.nombreUsuario}</TableCell>
                         <TableCell align="left">
-                                    <Button outline color="success" size="sm" onClick={() => this.mostrarAccionesParaUsuario(row.idUsuario)}>Ir a Información del usuario</Button>
+                                    <Button outline color="success" size="sm" onClick={() => this.mostrarAccionesParaUsuario(row.idUsuario, row.nombreUsuario)}>Ir a Información del usuario</Button>
 
                         </TableCell>
                       </TableRow>
