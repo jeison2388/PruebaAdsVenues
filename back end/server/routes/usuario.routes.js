@@ -1,6 +1,6 @@
-var express          = require('express');
-var router           = express.Router();
-var models           = require('../models');
+let express          = require('express');
+let router           = express.Router();
+let models           = require('../models');
 
 router.get('/listaUsuarios',(req, res)=>{
     let getListadoUsuarios = models.usuario.findAll({})
@@ -123,6 +123,40 @@ router.post('/quienMeSigue',(req, res)=>{
     }).catch(error =>{
         console.log(error)
         res.status(400).send(error)
+    })
+})
+
+router.get('/amistades',(req, res)=>{
+    let getListadoUsuarios = models.usuario.findAll(
+        {
+            include : [
+                {
+                model : models.seguidores, as: 'a_quien_sigo'     
+                },
+                {
+                model: models.seguidores, as: 'quien_me_sigue'
+                }
+            ],
+        }
+    )
+    Promise.all(
+        [getListadoUsuarios]
+    ).then(([usuarios]) => {
+       
+        arrayReturn = []
+        for(let usuario of usuarios){
+            let objectReturn = {}
+            let quien_me_sigue = usuario.dataValues.a_quien_sigo
+            let a_quien_sigo = usuario.dataValues.quien_me_sigue
+            objectReturn.idUsuario = usuario.dataValues.idUsuario
+            objectReturn.nombreUsuario = usuario.dataValues.nombreUsuario
+            objectReturn.quien_me_sigue = quien_me_sigue
+            objectReturn.a_quien_sigo = a_quien_sigo  
+            arrayReturn.push(objectReturn)
+        }
+        return res.send(arrayReturn)
+    }).catch(error =>{
+        return res.status(400).send({error: 'No se pueden obtener los usuarios'})
     })
 })
 

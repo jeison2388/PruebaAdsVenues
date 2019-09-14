@@ -23,6 +23,43 @@ En case de no obtener resultados, el json que retorna es: []
 |`200`|Exito|
 |`500`|Error interno en el servidor|
 
+### GET /usuario/amistades
+Esta peticion retorna todos los usuarios de la red social, el json que retorna se ve acontinuacion 
+```json
+[
+    {
+        "idUsuario": 20,
+        "nombreUsuario": "DAYANI",
+        "quien_me_sigue": [],
+        "a_quien_sigo": [
+            {
+                "id": 25,
+                "seguidor": 20,
+                "seguido": 27
+            },
+            {
+                "id": 26,
+                "seguidor": 20,
+                "seguido": 8
+            },
+            {
+                "id": 27,
+                "seguidor": 20,
+                "seguido": 8
+            }
+        ]
+    },...
+]
+```
+
+En case de no obtener resultados, el json que retorna es: []
+
+#### Error
+|Status Codigo|Descripcion|
+|---|---|
+|`200`|Exito|
+|`500`|Error interno en el servidor|
+
 ### POST /usuario/aQuienSigo
 Esta peticion permite saber a quien sigo yo como usuario
 Usted debe proveer en el body de la peticion la siguiente informacion
