@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
+import {createStore, combineReducers, compose} from 'redux'
 import usuarioReducer from './reducers/usuario/usuarioReducer'
 
 const composeEnhancers =

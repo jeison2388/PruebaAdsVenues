@@ -7,4 +7,8 @@ const filtrarUsuarios = (item, value) =>
     return (item.a_quien_sigue.nombreUsuario.toLowerCase().search(value.toLowerCase()) !== -1)
   }
 
-  export {filtrarUsuarios, filtrarAQuienSigo}
+  const filtrarQuienMeSigue = (item, value) =>{
+    return (item.quien_sigue.nombreUsuario.toLowerCase().search(value.toLowerCase()) !== -1)
+  }
+
+  export {filtrarUsuarios, filtrarAQuienSigo, filtrarQuienMeSigue}

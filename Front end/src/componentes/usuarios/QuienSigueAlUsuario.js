@@ -8,8 +8,8 @@ import { blue} from '@material-ui/core/colors';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Row, Col, Card, CardBody, Button,Alert,Badge } from 'reactstrap';
-import {filtrarUsuarios} from './utils/utilUser'
+import { Row, Col, Card, CardBody, Alert,Badge } from 'reactstrap';
+import {filtrarQuienMeSigue} from './utils/utilUser'
 import {connect} from 'react-redux';
 import {getQuienMeSigue} from './utils/servicioConexion'
 
@@ -22,13 +22,21 @@ const theme = createMuiTheme({
 });
 
 const placeholderFind = "Buscar por nombre"
-const headerTittleTable = ['Nombre usuario que sigo',  'Acciones']
+const headerTittleTable = ['Nombre usuario que me sigo']
 
 class QuienSigueAlUsuario extends Component {
 
   constructor(props)
   {
     super(props);
+    const objeckKey = Object.keys(this.props.usuarioReducer)
+    if(objeckKey.length === 0)
+      {
+        this.redirectTo('/usuarios/listaUsuarios')
+        this.state ={  rows: [],
+          page: 0,
+          rowsPerPage: 10,}
+      }else{
     this.state = {
       showModal: false,
       msjShowModal:'',
@@ -40,7 +48,7 @@ class QuienSigueAlUsuario extends Component {
       page: 0,
       rowsPerPage: 10,
       mostrarCargando: true
-    }
+    }}
   }
 
   componentDidMount()
@@ -72,6 +80,22 @@ class QuienSigueAlUsuario extends Component {
     this.setState({mostrarCargando: state})
   }
 
+  filtrarLista = (event) =>
+  {
+    if(event.target.value.length === 0)
+    {
+      this.setState({rows: this.state.temporaryRows})
+    }else
+    {
+    let updateList = this.state.temporaryRows;
+    updateList = updateList.filter((item) =>
+    {
+      return filtrarQuienMeSigue(item, event.target.value)
+    })
+    this.setState({rows: updateList})
+    }
+  }
+
 
 
   render() {
@@ -83,6 +107,7 @@ class QuienSigueAlUsuario extends Component {
       <Col  xs="12" md="9" lg="12" >
         <Card  body outline >
           <CardBody >
+          <h1 className="title text-center"> <strong>QUIEN SIGUE A {this.props.nombreUsuario} </strong> </h1><br></br>
           <MuiThemeProvider theme={theme}>
           <Row>
 
@@ -106,9 +131,6 @@ class QuienSigueAlUsuario extends Component {
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                       <TableRow key={row.id}>
                         <TableCell align="left" component="th" scope="row">{row.quien_sigue.nombreUsuario}</TableCell>
-                        <TableCell align="left">
-                                    <Button outline color="danger" size="sm" onClick={() => this.eliminarAmistad(row.seguidor)}>Eliminar Amistad</Button>
-                        </TableCell>
                       </TableRow>
                     ))}
                     {emptyRows > 0 && (
@@ -138,7 +160,9 @@ class QuienSigueAlUsuario extends Component {
 const mapStateToProps = (state) =>
   {
     return {
-      idUsuario: state.usuarioReducer.idUsuario
+      idUsuario: state.usuarioReducer.idUsuario,
+      nombreUsuario: state.usuarioReducer.nombreUsuario,
+      usuarioReducer : state.usuarioReducer
     };
 }
 
