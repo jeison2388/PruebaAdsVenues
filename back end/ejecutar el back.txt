@@ -3,8 +3,9 @@ para iniciar el servicio hacer los siguientes pasos: base de datos utilizada mar
 1. crear base de datos en maria db con el siguiente nombre "red_social_dev"
 2. ir a la carpeta de server/config/config.json y verificar que apunta al puerto en el que tiene mariadb
 3. dar npm install en el paquete del servicio para que descargue la informacion necesaria
-4. utilizar el archivo insertUsuarios.sql para crear a los usuarios correr en la bd
 5. en esta carpeta abrir una consola de comandos y ejecutar npm start
+4. utilizar el archivo insertUsuarios.sql para crear a los usuarios correr en la bd
+
 6 para el cliente tambien correr con npm start
 
 notas: la documentacion de las rutas esta en la carpeta docs
