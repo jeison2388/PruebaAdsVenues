@@ -24,7 +24,7 @@ En case de no obtener resultados, el json que retorna es: []
 |`500`|Error interno en el servidor|
 
 ### GET /usuario/amistades
-Esta peticion retorna todos los usuarios de la red social, el json que retorna se ve acontinuacion 
+Esta peticion retorna todos los usuarios de la red social y su relacion con los otros, el json que retorna se ve acontinuacion 
 ```json
 [
     {

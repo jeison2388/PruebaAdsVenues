@@ -97,6 +97,14 @@ class ListaUsuarios extends Component {
     this.props.history.push('/usuarios/accionesParaElUsuario')
   }
 
+  handleChangePage = (page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: parseInt(event.target.value)});
+  };
+
 
   render() {
     const { rows, rowsPerPage, page } = this.state;

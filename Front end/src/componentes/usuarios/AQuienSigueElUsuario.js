@@ -116,6 +116,14 @@ class AQuienSigueElUsuario extends Component {
     this.props.redirectTo(path)
   }
 
+  handleChangePage = (page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: parseInt(event.target.value)});
+  };
+
   render() {
       const { rows, rowsPerPage, page } = this.state;
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);

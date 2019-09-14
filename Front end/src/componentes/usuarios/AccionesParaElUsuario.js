@@ -36,6 +36,14 @@ class AccionesParaElUsuario extends Component {
       this.props.history.push(path)
   }
 
+  handleChangePage = (page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: parseInt(event.target.value)});
+  };
+
   render() {
     return (
       <div>

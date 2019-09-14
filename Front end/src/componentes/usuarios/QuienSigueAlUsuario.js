@@ -96,7 +96,13 @@ class QuienSigueAlUsuario extends Component {
     }
   }
 
+  handleChangePage = (page) => {
+    this.setState({ page });
+  };
 
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: parseInt(event.target.value)});
+  };
 
   render() {
     const { rows, rowsPerPage, page } = this.state;
